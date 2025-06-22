@@ -1,2 +1,0 @@
-# work in project-root/
-thrift --gen java -out src/main/java doc/thrift/coupon_service.thrift

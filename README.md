@@ -1,7 +1,7 @@
 # 🎟️ Coupon Thrift Service
 
-This project is a simple microservice written in Java using Apache Thrift. 
-It provides two RPC methods for coupon validation and discount calculation, and is designed to be integrated into a larger e-commerce backend system.
+This is a standalone microservice implemented in Java using Apache Thrift.  
+It provides RPC methods for coupon validation and discount calculation, and is designed to be part of a larger e-commerce system.
 
 ---
 
@@ -16,18 +16,23 @@ It provides two RPC methods for coupon validation and discount calculation, and 
 
 ## 🚀 How to Build & Run
 
-### 1. Generate Java interfaces from Thrift file
-```bash 
-please work in the project root
+### 1. Build the project
 
-thrift --gen java -out src/main/java doc/thrift/coupon_service.thrift
+This service depends on the `coupon-thrift-api` module which contains the Thrift interface definitions and generated Java classes.  
+Make sure to add `coupon-thrift-api` as a Maven dependency.
+
+```bash
+mvn clean package
 ```
 
-### 2. Run with Docker
+### 2. Run with Docker (single container)
+You can build and run this service as a Docker container:
 ```bash
 docker build -t coupon-thrift-service .
 docker run -p 9090:9090 coupon-thrift-service
 ```
+Note: For multi-service environments, 
+use the top-level docker-compose.yml from the main orchestration project (e.g., ecommerce-system).
 
 ## 📡 API Methods
 | Method              | Parameters                     | Description                         |
@@ -44,3 +49,4 @@ docker run -p 9090:9090 coupon-thrift-service
 - Apache Thrift 0.21.0
 - Maven
 - Docker (optional)
+- coupon-thrift-api (Thrift interface module)
