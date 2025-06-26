@@ -10,14 +10,15 @@ RUN wget https://archive.apache.org/dist/thrift/0.21.0/thrift-0.21.0.tar.gz && \
     make && make install
 
 # Build Java project
-WORKDIR /app
+WORKDIR /build
 COPY . .
-RUN mvn clean package -DskipTests
+# KEY：only package coupon-thrift-service，but install all dependency modules
+RUN mvn clean install -pl coupon-thrift-service -am -DskipTests
 
 # Runtime stage: slim JRE only
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=builder /app/target/coupon-thrift-service-1.0-SNAPSHOT.jar coupon-thrift-service.jar
+COPY --from=builder /build/coupon-thrift-service/target/*.jar app.jar
 
 EXPOSE 9090
-ENTRYPOINT ["java", "-jar", "coupon-thrift-service.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
